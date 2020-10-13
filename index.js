@@ -12,12 +12,15 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res, next)=>{
   res.render(__dirname + '/public/index.ejs')
+});
+
+io.on('connection', function(client) {
+  console.log('user '+ client.id+' connected')
+  client.on('disconnect', function(){
+    console.log('user '+ client.id+ ' disconnected');
+  })
 })
 
-server.listen(8085, ()=>{
-  
-  console.log('listening on 8085');
-
-
+server.listen(8090, ()=>{
+  console.log('listening on 8090');
 })
-
