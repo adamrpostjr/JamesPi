@@ -1,0 +1,22 @@
+{
+  "name": "jamespi",
+  "version": "1.0.0",
+  "description": "Fun project to mess with a Co-Worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamrpostjr/JamesPi.git"
+  },
+  "author": "Adam Post",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adamrpostjr/JamesPi/issues"
+  },
+  "homepage": "https://github.com/adamrpostjr/JamesPi#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
