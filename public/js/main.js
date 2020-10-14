@@ -1,4 +1,4 @@
-
+var socket = io();
 (function ($, window, undefined) {
 	$.fn.marqueeify = function (options) {
 		var settings = $.extend({
@@ -63,9 +63,7 @@
 		});
 	};
 })(jQuery, window);
-
 $(document).ready( function() {
-
 	$('.marquee').marqueeify({
 		speed: 300,
 		bumpEdge: function () {
@@ -74,3 +72,11 @@ $(document).ready( function() {
 		}
 	});
 });
+
+const saying = document.getElementById('jhead')
+socket.on('updateClient', function(data){
+	console.log(data);
+	saying.innerText = ''
+	saying.innerText = data
+	console.log(saying.innerText);
+})
