@@ -75,8 +75,6 @@ $(document).ready( function() {
 
 const saying = document.getElementById('jhead')
 socket.on('updateClient', function(data){
-	console.log(data);
 	saying.innerText = ''
 	saying.innerText = data
-	console.log(saying.innerText);
 })
