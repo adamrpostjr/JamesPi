@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const store = require('nedb');
+const insults = new store({ filename: 'insults.db', autoload: true })
+
 
 app.set('view-engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -22,17 +25,19 @@ io.on('connection', function(client) {
   io.emit('testing', 'testing')
   
   
-  
   client.on('update', function(data){
-    console.log(data);
     if (data.password == "techPass") {
       var update = data.update
+      if (data.store == 1) {
+        insults.insert({uuid: client.id, insults: update})
+      }        
       io.emit('updateClient', update)
     }
   })
-  
-  
-  
+  client.on('help', function(data){
+    console.log(client.id);
+    // io.broadcast.to(client.id).emit('helper','coming soon');
+  })
   
   
   
