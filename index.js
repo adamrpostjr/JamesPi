@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res, next)=>{
   res.render(__dirname + '/public/index.ejs')
 });
+
 app.get('/favicon.ico', (req, res, next)=>{
   return "coming soon";
 });
@@ -24,6 +25,15 @@ io.on('connection', function(client) {
   console.log('user '+ client.id+' connected')
   io.emit('testing', 'testing')
   
+  client.on('admin-board', function(data){
+    if (data.password == "techPass"){
+      
+    }
+    else {
+      var update = 'Stop Trying to hack me James.. you\'ll never get past me'
+      io.emit('updateClient', update)
+    }
+  })
   
   client.on('update', function(data){
     if (data.password == "techPass") {
@@ -38,12 +48,7 @@ io.on('connection', function(client) {
     console.log(client.id);
     // io.broadcast.to(client.id).emit('helper','coming soon');
   })
-  
-  
-  
-  
-  
-  
+
   
   client.on('disconnect', function(){
     console.log('user '+ client.id+ ' disconnected');
