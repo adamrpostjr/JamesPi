@@ -25,9 +25,13 @@ io.on('connection', function(client) {
   client.on('knockKnock', function(data){
     if (data == 'techPass') {
       insults.find({}, function (err, docs) {
-        console.log(docs);
+        if (docs.length == 0) {
+          io.to(client.id).emit('comeIn', 'nothing');
+        }else {
+          io.to(client.id).emit('comeIn', docs);
+        }
       });
-      io.to(client.id).emit('comeIn', data);
+      
     }else {
       console.log(client.id+' wrong password');
     }
@@ -37,18 +41,18 @@ io.on('connection', function(client) {
     if (data.password == "techPass") {
       var update = data.update
       if (data.save == 1) {
-        insults.insert({uuid: client.id, insults: update})
+        insults.find({insults: update}, function(err, docs){
+          if (docs.length == 0) {
+            insults.insert({uuid: client.id, insults: update})
+            console.log('saved '+update);          
+          }else {
+            console.log('already have it');
+          }
+        })
       }
       io.emit('updateClient', update)
     }
   })
-  client.on('help', function(data){
-    console.log(client.id);
-    // io.broadcast.to(client.id).emit('helper','coming soon');
-  })
-
-
-
 
 
 

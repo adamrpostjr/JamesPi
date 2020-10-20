@@ -92,7 +92,15 @@ socket.on('comeIn', function(data){
 	passBox.value =  pass
 	var insults = document.createElement('select');
 	insults.classList.add("insultList");
+	insults.id = 'insultList'
 	form.appendChild(insults);
+	var option = document.createElement('option')
+	option.text = 'Choose a saved insult';
+	option.value = 0
+	insults.add(option)
+	buildList(data)
+	insults.options[0].disabled = true;
+	insults.options[0].selected = true;
 	var save = document.createElement('input');
 	save.setAttribute('type', 'checkbox')
 	save.setAttribute('name', 'save')
@@ -126,7 +134,6 @@ socket.on('comeIn', function(data){
 let keysPressed = {};
 document.addEventListener('keydown', (event) => {
 	keysPressed[event.key] = true;
-	console.log(keysPressed);
 	var form = document.getElementById('form')
 	if (form === null) {
 		if (keysPressed['Alt'] && event.key == 'm') {
@@ -141,7 +148,6 @@ document.addEventListener('keydown', (event) => {
 });
 document.addEventListener('keyup', (event) => {
    delete keysPressed[event.key];
-	 console.log(keysPressed);
 });
 function passChecker() {
   var password = prompt("Please enter a password:", "");
@@ -152,5 +158,13 @@ function passChecker() {
 		delete keysPressed['Alt'];
 		delete keysPressed['m'];
 		socket.emit('knockKnock', password)
+	}
+}
+function buildList(list) {
+	var insults = document.getElementById('insultList');
+	for (var i = 0; i < list.length; i++) {
+		var option = document.createElement("option");
+		option.text = list[i].insults;
+		insults.add(option);
 	}
 }
