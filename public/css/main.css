@@ -16,8 +16,6 @@ body {
 }
 svg {
   display: block;
-
-
 }
 .logo {
   fill: #fff;
@@ -28,4 +26,63 @@ svg {
   top: 50%;
   font-size: xxx-large;
   transform: translate(-50%,-50%);
+}
+.form{
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  width: 500px;
+  height: 300px;
+  background: black;
+  color: green;
+  border-radius: 20px;
+  border: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: -4px 6px 31px -11px white;
+}
+.passBox{
+  width: 30%;
+  margin-left: 2%;
+  margin-bottom: 10px;
+}
+.msgBox{
+  max-width: 95%;
+  min-width: 95%;
+  min-height: 150px;
+  max-height: 150px;
+  resize: none;
+  margin: 0 auto;
+}
+.save{
+  position: inherit;
+  right: 25px;
+  top: 25px;
+}
+.updateButton{
+  width: 75%;
+  position: inherit;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+}
+.title{
+  color: white;
+  font-size: larger;
+  position: inherit;
+  top: 10px;
+  left: 2%;
+}
+.label{
+  color: white;
+  position: inherit;
+  right: 55px;
+  top: 23px;
+}
+.insultList{
+  width: 60%;
+  position: inherit;
+  right: 2%;
+  top: 54px;
 }

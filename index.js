@@ -22,15 +22,20 @@ app.get('/favicon.ico', (req, res, next)=>{
 
 io.on('connection', function(client) {
   console.log('user '+ client.id+' connected')
-  io.emit('testing', 'testing')
-  
-  
+  client.on('knockKnock', function(data){
+    if (data == 'techPass') {
+      io.to(client.id).emit('comeIn', 'come in');
+    }else {
+      console.log(client.id+' wrong password');
+    }
+  })
+
   client.on('update', function(data){
     if (data.password == "techPass") {
       var update = data.update
       if (data.store == 1) {
         insults.insert({uuid: client.id, insults: update})
-      }        
+      }
       io.emit('updateClient', update)
     }
   })
@@ -38,13 +43,13 @@ io.on('connection', function(client) {
     console.log(client.id);
     // io.broadcast.to(client.id).emit('helper','coming soon');
   })
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   client.on('disconnect', function(){
     console.log('user '+ client.id+ ' disconnected');
   })
