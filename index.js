@@ -16,31 +16,26 @@ app.use(bodyParser.json());
 app.get('/', (req, res, next)=>{
   res.render(__dirname + '/public/index.ejs')
 });
-
 app.get('/favicon.ico', (req, res, next)=>{
   return "coming soon";
 });
 
 io.on('connection', function(client) {
   console.log('user '+ client.id+' connected')
-  io.emit('testing', 'testing')
-  
-  client.on('admin-board', function(data){
-    if (data.password == "techPass"){
-      
-    }
-    else {
-      var update = 'Stop Trying to hack me James.. you\'ll never get past me'
-      io.emit('updateClient', update)
+  client.on('knockKnock', function(data){
+    if (data == 'techPass') {
+      io.to(client.id).emit('comeIn', 'come in');
+    }else {
+      console.log(client.id+' wrong password');
     }
   })
-  
+
   client.on('update', function(data){
     if (data.password == "techPass") {
       var update = data.update
       if (data.store == 1) {
         insults.insert({uuid: client.id, insults: update})
-      }        
+      }
       io.emit('updateClient', update)
     }
   })
@@ -49,7 +44,12 @@ io.on('connection', function(client) {
     // io.broadcast.to(client.id).emit('helper','coming soon');
   })
 
-  
+
+
+
+
+
+
   client.on('disconnect', function(){
     console.log('user '+ client.id+ ' disconnected');
   })
