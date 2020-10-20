@@ -70,7 +70,7 @@ $(document).ready( function() {
 		}
 	});
 });
-
+var pass = '';
 const saying = document.getElementById('jhead')
 socket.on('updateClient', function(data){
 	saying.innerText = ''
@@ -78,6 +78,7 @@ socket.on('updateClient', function(data){
 })
 socket.on('comeIn', function(data){
 	var form = document.createElement("div");
+	form.id = "form"
 	form.classList.add("form");
 	document.body.appendChild(form)
 	var title = document.createElement("span");
@@ -88,6 +89,7 @@ socket.on('comeIn', function(data){
 	passBox.classList.add("passBox");
 	passBox.setAttribute('type','password');
 	form.appendChild(passBox);
+	passBox.value =  pass
 	var insults = document.createElement('select');
 	insults.classList.add("insultList");
 	form.appendChild(insults);
@@ -108,31 +110,47 @@ socket.on('comeIn', function(data){
 	form.appendChild(msgBox);
 	var updateButton = document.createElement('button');
 	updateButton.classList.add('updateButton');
+	updateButton.id = "updateButton"
 	updateButton.innerText = 'UPDATE'
-	updateButton.setAttribute('onclick', 'sendUpdate('+passBox.value,save.value,msgBox.value+')')
 	form.appendChild(updateButton)
+	$("#updateButton").click(function(){
+		var checked;
+		save.checked ? checked = 1 : checked = 0 
+		if (passBox.value.length < 1 || msgBox.value.length < 1) {
+			msgBox.value = 'please set password or msgBox'
+		}else {
+			socket.emit('update', {password: passBox.value, update: msgBox.value, save: checked})
+		}		
+	});
 })
 let keysPressed = {};
 document.addEventListener('keydown', (event) => {
-   keysPressed[event.key] = true;
-   if (keysPressed['Alt'] && event.key == 'm') {
-       passChecker()
-   }
+	keysPressed[event.key] = true;
+	console.log(keysPressed);
+	var form = document.getElementById('form')
+	if (form === null) {
+		if (keysPressed['Alt'] && event.key == 'm') {
+				passChecker()
+		}
+	}else {
+		if (keysPressed['Alt'] && event.key == 'm') {
+				form.remove()
+		}
+	}
+
 });
 document.addEventListener('keyup', (event) => {
    delete keysPressed[event.key];
+	 console.log(keysPressed);
 });
 function passChecker() {
   var password = prompt("Please enter a password:", "");
+	pass = password
 	if (password == "") {
 		saying.innerText == "not today"
-	}
-	else {
+	}else {
+		delete keysPressed['Alt'];
+		delete keysPressed['m'];
 		socket.emit('knockKnock', password)
 	}
-}
-function sendUpdate(password, save, message) {
-	console.log(password);
-	console.log(save);
-	console.log(message);
 }

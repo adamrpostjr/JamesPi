@@ -24,7 +24,10 @@ io.on('connection', function(client) {
   console.log('user '+ client.id+' connected')
   client.on('knockKnock', function(data){
     if (data == 'techPass') {
-      io.to(client.id).emit('comeIn', 'come in');
+      insults.find({}, function (err, docs) {
+        console.log(docs);
+      });
+      io.to(client.id).emit('comeIn', data);
     }else {
       console.log(client.id+' wrong password');
     }
@@ -33,7 +36,7 @@ io.on('connection', function(client) {
   client.on('update', function(data){
     if (data.password == "techPass") {
       var update = data.update
-      if (data.store == 1) {
+      if (data.save == 1) {
         insults.insert({uuid: client.id, insults: update})
       }
       io.emit('updateClient', update)

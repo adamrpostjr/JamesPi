@@ -61,9 +61,10 @@ svg {
   top: 25px;
 }
 .updateButton{
-  width: 75%;
+  width: 50%;
+  height: 25px;
   position: inherit;
-  bottom: 0;
+  bottom: 5px;
   left: 50%;
   transform: translate(-50%);
 }
